@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ThesiMart - Seller Dashboard</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f5f1e6;
+color:#222;
+}
+
+nav{
+background:#234d20;
+color:white;
+padding:18px 45px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+nav h2{margin:0}
+
+nav a{
+color:white;
+text-decoration:none;
+margin-left:25px;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:35px 25px;
+}
+
+h1,h2{
+color:#234d20;
+}
+
+.add-box{
+background:white;
+padding:25px;
+border-radius:16px;
+box-shadow:0 3px 12px rgba(0,0,0,.10);
+margin-bottom:35px;
+}
+
+.form-row{
+display:flex;
+gap:15px;
+flex-wrap:wrap;
+}
+
+input{
+padding:12px;
+border:1px solid #ddd;
+border-radius:8px;
+outline:none;
+}
+
+input:focus{
+border-color:#234d20;
+}
+
+.add-btn{
+background:#234d20;
+color:white;
+border:0;
+padding:12px 22px;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.product-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:22px;
+}
+
+.product-card{
+background:white;
+border-radius:16px;
+overflow:hidden;
+box-shadow:0 3px 12px rgba(0,0,0,.10);
+transition:.2s;
+}
+
+.product-card:hover{
+transform:translateY(-4px);
+}
+
+.product-card img{
+width:100%;
+height:180px;
+object-fit:cover;
+}
+
+.product-info{
+padding:18px;
+}
+
+.product-info h3{
+margin:0 0 8px;
+color:#234d20;
+}
+
+.price{
+font-size:20px;
+font-weight:bold;
+}
+
+.stock{
+color:#666;
+font-size:14px;
+}
+
+.badge{
+display:inline-block;
+background:#e7f0e3;
+color:#234d20;
+padding:5px 9px;
+border-radius:15px;
+font-size:12px;
+}
+
+@media(max-width:700px){
+nav{
+padding:18px 20px;
+}
+
+nav a{
+margin-left:10px;
+}
+
+.form-row{
+flex-direction:column;
+}
+
+input,.add-btn{
+width:100%;
+}
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+
+<h2>ThesiMart</h2>
+
+<div>
+<a href="seller.html">Dashboard</a>
+<a href="home.html">Home</a>
+<a href="login.html">Logout</a>
+</div>
+
+</nav>
+
+<div class="container">
+
+<h1>Seller Dashboard</h1>
+
+<div class="add-box">
+
+<h2>Add New Product</h2>
+
+<div class="form-row">
+
+<input id="name" type="text" placeholder="Product Name">
+
+<input id="price" type="number" placeholder="Price">
+
+<input id="stock" type="number" placeholder="Stock">
+
+<button class="add-btn" onclick="addProduct()">
+Add Product
+</button>
+
+</div>
+
+</div>
+
+<h2>My Products</h2>
+
+<div id="products" class="product-grid"></div>
+
+</div>
+
+<script>
+
+function getImage(name){
+
+if(name==="Wireless Headphones")
+return "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500";
+
+if(name==="Smart Watch")
+return "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500";
+
+if(name==="Java Programming Book")
+return "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500";
+
+if(name==="Bluetooth Speaker")
+return "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500";
+
+return "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=500";
+
+}
+
+let defaultProducts=[
+
+{
+name:"Wireless Headphones",
+price:1499,
+stock:20
+},
+
+{
+name:"Smart Watch",
+price:2499,
+stock:15
+},
+
+{
+name:"Java Programming Book",
+price:599,
+stock:30
+}
+
+];
+
+function showProducts(){
+
+let saved=JSON.parse(localStorage.getItem('sellerProducts')||'[]');
+
+let products=[...defaultProducts,...saved];
+
+let box=document.getElementById('products');
+
+box.innerHTML='';
+
+products.forEach(product=>{
+
+box.innerHTML+=`
+
+<div class="product-card">
+
+<img src="${getImage(product.name)}" alt="${product.name}">
+
+<div class="product-info">
+
+<span class="badge">Seller Product</span>
+
+<h3>${product.name}</h3>
+
+<p class="price">&#8377;${product.price}</p>
+
+<p class="stock">Stock available: ${product.stock}</p>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+function addProduct(){
+
+let name=document.getElementById('name').value.trim();
+
+let price=document.getElementById('price').value;
+
+let stock=document.getElementById('stock').value;
+
+if(name==="" || price==="" || stock===""){
+
+alert("Please fill all fields!");
+
+return;
+
+}
+
+let products=JSON.parse(localStorage.getItem('sellerProducts')||'[]');
+
+products.push({
+
+name:name,
+
+price:Number(price),
+
+stock:Number(stock)
+
+});
+
+localStorage.setItem('sellerProducts',JSON.stringify(products));
+
+document.getElementById('name').value='';
+
+document.getElementById('price').value='';
+
+document.getElementById('stock').value='';
+
+showProducts();
+
+alert("Product added successfully!");
+
+}
+
+showProducts();
+
+</script>
+
+</body>
+</html>

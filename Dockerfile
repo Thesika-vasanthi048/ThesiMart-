@@ -1,3 +1,3 @@
-﻿FROM tomcat:9.0-jdk17-openjdk
+﻿FROM tomcat:9.0-jre17
 RUN rm -rf /usr/local/tomcat/webapps/*
 COPY target/*.war /usr/local/tomcat/webapps/ROOT.war

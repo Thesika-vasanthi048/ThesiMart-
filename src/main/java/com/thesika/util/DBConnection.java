@@ -6,22 +6,15 @@ import java.sql.SQLException;
 
 public class DBConnection {
 
-    private static final String URL =
-            "jdbc:mysql://localhost:3306/thesimart_db";
-
-    private static final String USER = "root";
-
-    private static final String PASSWORD =
-        System.getenv("THESIMART_DB_PASSWORD");
+    private static final String URL = "jdbc:postgresql://://render.com";
 
     public static Connection getConnection() throws SQLException {
-
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            throw new SQLException("MySQL Driver not found!", e);
+            throw new SQLException("PostgreSQL Driver not found!", e);
         }
 
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+        return DriverManager.getConnection(URL);
     }
 }

@@ -6,7 +6,8 @@ import java.sql.SQLException;
 
 public class DBConnection {
 
-    private static final String URL = "jdbc:postgresql://://render.com";
+    
+    private static final String URL = "jdbc:postgresql://thesimart_db:qniQHsEIoZLr7QbEMDQvP4ZMlUvm6fkk@dpg-db54ad7lot8c73dm6d6g-a.oregon-postgres.render.com/thesimart_db";
 
     public static Connection getConnection() throws SQLException {
         try {

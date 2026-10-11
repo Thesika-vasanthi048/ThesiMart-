@@ -14,7 +14,6 @@ public class DBConnection {
         } catch (ClassNotFoundException e) {
             throw new SQLException("PostgreSQL Driver not found!", e);
         }
-
         return DriverManager.getConnection(URL);
     }
 }
